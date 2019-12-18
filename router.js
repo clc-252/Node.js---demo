@@ -6,6 +6,9 @@ const path = require('path');
 //在node中提供了一个url模块专门用来处理请求的路径相关的数据
 const urlModel = require('url');
 
+// 引入控制器模块
+let controller = require('./controller')
+
 // 封装一个路由方法
 function router(req, res) {
   let method = req.method;
@@ -21,19 +24,21 @@ function router(req, res) {
     // })
 
     // 模拟从数据库拿取数据
-    fs.readFile(path.join(__dirname, './heros.json'), (err, data) => {
-      if (err) return console.log(err.message);
-      let herosData = JSON.parse(data);
-      // let str = template(path.join(__dirname, './views/index.html'), {
-      //   data: herosData
-      // });
-      // res.end(str)
+    // fs.readFile(path.join(__dirname, './heros.json'), (err, data) => {
+    //   if (err) return console.log(err.message);
+    //   let herosData = JSON.parse(data);
+    //   // let str = template(path.join(__dirname, './views/index.html'), {
+    //   //   data: herosData
+    //   // });
+    //   // res.end(str)
 
-      // 使用封装的函数
-      res.render('index', {
-        data: herosData
-      })
-    })
+    //   // 使用封装的函数
+    //   res.render('index', {
+    //     data: herosData
+    //   })
+    // })
+
+    controller.showIndexPage(req, res);
   } else if (method == 'GET' && (pathname == '/edit') || pathname == '/edit.html') {
     // 读取编辑页面的数据
     // fs.readFile(path.join(__dirname, './views/edit.html'), (err, data) => {
@@ -44,7 +49,9 @@ function router(req, res) {
     // let str = template(path.join(__dirname, './views/edit.html'), {});
     // res.end(str)
 
-    res.render('edit', {})
+    // res.render('edit', {})
+
+    controller.showEditPage(req, res)
   } else if (method == 'GET' && (pathname == '/add') || pathname == '/add.html') {
     // 读取添加页面的数据
     // fs.readFile(path.join(__dirname, './views/add.html'), (err, data) => {
@@ -55,7 +62,9 @@ function router(req, res) {
     // let str = template(path.join(__dirname, './views/add.html'), {});
     // res.end(str)
 
-    res.render('add', {})
+    // res.render('add', {})
+
+    controller.showAddPage(req, res)
   } else if (method == 'GET' && (pathname == '/info') || pathname == '/info.html') {
     // 读取查看页面的数据
     // fs.readFile(path.join(__dirname, './views/info.html'), (err, data) => {
@@ -66,7 +75,9 @@ function router(req, res) {
     // let str = template(path.join(__dirname, './views/info.html'), {});
     // res.end(str)
 
-    res.render('info', {})
+    // res.render('info', {})
+
+    controller.showInfoPage(req, res);
   } else if (method == 'GET' && pathname == '/node_modules/bootstrap/dist/css/bootstrap.css') {
     fs.readFile(path.join(__dirname, './node_modules/bootstrap/dist/css/bootstrap.css'), (err, data) => {
       if (err) return console.log(err.message);
