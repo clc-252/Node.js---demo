@@ -16,6 +16,9 @@ function router(req, res) {
   let pathname = urlModel.parse(url, true).pathname;
   let query = urlModel.parse(url, true).query;
 
+  //相当于给req添加一个pathname的属性用来存储pathname的值
+  req.pathname = pathname;
+
   if (method == 'GET' && (pathname == '/' || pathname == '/index' || pathname == '/index.html')) {
     // 读取首页的数据
     // fs.readFile(path.join(__dirname, './views/index.html'), (err, data) => {
@@ -78,16 +81,9 @@ function router(req, res) {
     // res.render('info', {})
 
     controller.showInfoPage(req, res);
-  } else if (method == 'GET' && pathname == '/node_modules/bootstrap/dist/css/bootstrap.css') {
-    fs.readFile(path.join(__dirname, './node_modules/bootstrap/dist/css/bootstrap.css'), (err, data) => {
-      if (err) return console.log(err.message);
-      res.end(data);
-    })
-  } else if (method == 'GET' && pathname == '/node_modules/jquery/dist/jquery.js') {
-    fs.readFile(path.join(__dirname, './node_modules/jquery/dist/jquery.js'), (err, data) => {
-      if (err) return console.log(err.message);
-      res.end(data);
-    })
+  } else if (method == 'GET' && pathname.startsWith('/node_modules')) {
+    // 如果是以/node_modules开头的，说明是要加载静态资源
+    controller.loadStaticResource(req, res);
   } else {
     res.end('404');
   }
