@@ -38,22 +38,28 @@ app.on('request', (req, res) => {
     })
   } else if (method == 'GET' && (pathname == '/edit') || pathname == '/edit.html') {
     // 读取编辑页面的数据
-    fs.readFile(path.join(__dirname, './views/edit.html'), (err, data) => {
-      if (err) return console.log(err.message);
-      res.end(data);
-    })
+    // fs.readFile(path.join(__dirname, './views/edit.html'), (err, data) => {
+    //   if (err) return console.log(err.message);
+    //   res.end(data);
+    // })
+    let str = template(path.join(__dirname, './views/edit.html'), {});
+    res.end(str)
   } else if (method == 'GET' && (pathname == '/add') || pathname == '/add.html') {
     // 读取添加页面的数据
-    fs.readFile(path.join(__dirname, './views/add.html'), (err, data) => {
-      if (err) return console.log(err.message);
-      res.end(data);
-    })
+    // fs.readFile(path.join(__dirname, './views/add.html'), (err, data) => {
+    //   if (err) return console.log(err.message);
+    //   res.end(data);
+    // })
+    let str = template(path.join(__dirname, './views/add.html'), {});
+    res.end(str)
   } else if (method == 'GET' && (pathname == '/info') || pathname == '/info.html') {
     // 读取查看页面的数据
-    fs.readFile(path.join(__dirname, './views/info.html'), (err, data) => {
-      if (err) return console.log(err.message);
-      res.end(data);
-    })
+    // fs.readFile(path.join(__dirname, './views/info.html'), (err, data) => {
+    //   if (err) return console.log(err.message);
+    //   res.end(data);
+    // })
+    let str = template(path.join(__dirname, './views/info.html'), {});
+    res.end(str)
   } else if (method == 'GET' && pathname == '/node_modules/bootstrap/dist/css/bootstrap.css') {
     fs.readFile(path.join(__dirname, './node_modules/bootstrap/dist/css/bootstrap.css'), (err, data) => {
       if (err) return console.log(err.message);
