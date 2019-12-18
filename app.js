@@ -22,21 +22,34 @@ app.on('request', (req, res) => {
   let query = urlModel.parse(url, true).query;
 
   if (method == 'GET' && (pathname == '/' || pathname == '/index' || pathname == '/index.html')) {
-    fs.readFile(path.join(__dirname, './views/index.html'), (err, data) => {
+    // 读取首页的数据
+    // fs.readFile(path.join(__dirname, './views/index.html'), (err, data) => {
+    //   if (err) return console.log(err.message);
+    //   res.end(data);
+    // })
+    // 模拟从数据库拿取数据
+    fs.readFile(path.join(__dirname, './heros.json'), (err, data) => {
       if (err) return console.log(err.message);
-      res.end(data);
+      let herosData = JSON.parse(data);
+      let str = template(path.join(__dirname, './views/index.html'), {
+        data: herosData
+      });
+      res.end(str)
     })
   } else if (method == 'GET' && (pathname == '/edit') || pathname == '/edit.html') {
+    // 读取编辑页面的数据
     fs.readFile(path.join(__dirname, './views/edit.html'), (err, data) => {
       if (err) return console.log(err.message);
       res.end(data);
     })
   } else if (method == 'GET' && (pathname == '/add') || pathname == '/add.html') {
+    // 读取添加页面的数据
     fs.readFile(path.join(__dirname, './views/add.html'), (err, data) => {
       if (err) return console.log(err.message);
       res.end(data);
     })
   } else if (method == 'GET' && (pathname == '/info') || pathname == '/info.html') {
+    // 读取查看页面的数据
     fs.readFile(path.join(__dirname, './views/info.html'), (err, data) => {
       if (err) return console.log(err.message);
       res.end(data);
