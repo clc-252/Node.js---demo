@@ -45,7 +45,15 @@ module.exports = {
   },
   //显示详情页面
   showInfoPage(req, res) {
-    res.render('info', {})
+    // 获取英雄的id
+    let id = req.query.id
+    modelData.getOneHero(id, (err, data) => {
+      if (err) return res.end(JSON.stringify({
+        code: 201,
+        msg: '该英雄不存在'
+      }))
+      res.render('info', data)
+    })
   },
   // 加载静态资源
   loadStaticResource(req, res) {

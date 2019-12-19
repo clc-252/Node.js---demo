@@ -14,7 +14,9 @@ function router(req, res) {
   let method = req.method;
   let url = req.url;
   let pathname = urlModel.parse(url, true).pathname;
-  let query = urlModel.parse(url, true).query;
+  let query = urlModel.parse(url, true).query; // 可以获取到id
+  // 把id信息挂载到res的query上
+  req.query = query
 
   //相当于给req添加一个pathname的属性用来存储pathname的值
   req.pathname = pathname;
