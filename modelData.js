@@ -1,6 +1,8 @@
 // 引入模块
 const fs = require('fs');
 const path = require('path');
+// 引入moment模块
+const moment = require('moment')
 
 // 处理数据，并暴露
 module.exports = {
@@ -33,6 +35,26 @@ module.exports = {
         }
       })
       callback(null, obj);
+    })
+  },
+
+  // 添加英雄
+  addHeroInfo(hero, callback) {
+    // 获取所有英雄的信息
+    this.getAllHero((err, data) => {
+      if (err) return callback(false);
+      let heroArr = JSON.parse(data)
+      // 添加的数据没有id和时间
+      hero.date = moment().format('YYYY-MM-DD HH:mm:ss');
+      // heroArr[heroArr.length - 1].id 这样得到的是一个字符串
+      hero.id = +heroArr[heroArr.length - 1].id + 1;
+      heroArr.push(hero);
+      // console.log(heroArr);
+      // 再重新写入到json文件中
+      fs.writeFile(path.join(__dirname, './heros.json'), JSON.stringify(heroArr), err => {
+        if (err) return callback(false);
+        callback(true)
+      })
     })
   }
 }

@@ -83,6 +83,9 @@ function router(req, res) {
     // res.render('info', {})
 
     controller.showInfoPage(req, res);
+  } else if (method == 'POST' && pathname == '/addHeroInfo') {
+    // 添加英雄,调用控制器中的方法
+    controller.addHeroInfo(req, res)
   } else if (method == 'GET' && pathname.startsWith('/node_modules')) {
     // 如果是以/node_modules开头的，说明是要加载静态资源
     controller.loadStaticResource(req, res);

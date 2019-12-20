@@ -5,6 +5,7 @@
 // 引入模块
 const fs = require('fs');
 const path = require('path');
+const querystring = require('querystring');
 
 // 引入处理数据的模块
 let modelData = require('./modelData')
@@ -35,13 +36,13 @@ module.exports = {
       })
     })
   },
-  //显示添加页面
-  showAddPage(req, res) {
-    res.render('edit', {})
-  },
   //显示编辑页面
-  showEditPage(req, res) {
+  showAddPage(req, res) {
     res.render('add', {})
+  },
+  //显示添加页面
+  showEditPage(req, res) {
+    res.render('edit', {})
   },
   //显示详情页面
   showInfoPage(req, res) {
@@ -54,6 +55,31 @@ module.exports = {
       }))
       res.render('info', data)
     })
+  },
+  // 添加英雄的方法
+  addHeroInfo(req, res) {
+    // 获取用户添加的英雄信息，注意使用的是post请求
+    // 定义了一个变量，用于暂存请求体的信息
+    let str = '';
+    // 通过req的data事件监听函数，每当接受到请求体的数据，就累加到post变量中
+    req.on('data', chunk => {
+      str += chunk;
+    })
+    // 在end事件触发后，通过querystring.parse将post解析为真正的POST请求格式，然后向客户端返回。
+    req.on('end', () => {
+      let hero = querystring.parse(str);
+      modelData.addHeroInfo(hero, result => {
+        if (result) return res.end(JSON.stringify({
+          code: 200,
+          msg: '添加成功'
+        }))
+        res.end(JSON.stringify({
+          code: 201,
+          msg: '添加失败'
+        }))
+      })
+    })
+
   },
   // 加载静态资源
   loadStaticResource(req, res) {
