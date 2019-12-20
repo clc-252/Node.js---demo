@@ -51,7 +51,7 @@ module.exports = {
   },
   //显示添加页面
   showAddPage(req, res) {
-    res.render('edit', {})
+    res.render('add', {})
   },
   //显示详情页面
   showInfoPage(req, res) {
