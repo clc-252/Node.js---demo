@@ -56,5 +56,28 @@ module.exports = {
         callback(true)
       })
     })
+  },
+
+  // 编辑英雄信息的方法
+  editHeroInfo(hero, callback) {
+    // 获取所有英雄的信息
+    this.getAllHero((err, data) => {
+      if (err) return callback(false)
+      let heroArr = JSON.parse(data);
+      hero.date = moment().format('YYYY-MM-DD HH:mm:ss');
+      // 找到id和我们编辑的英雄信息匹配的那个数据
+      heroArr.some((item, index) => {
+        if (hero.id == item.id) {
+          // 由于json文件无法只修改我们修改了的内容数据，所以需要把整条数据删除再重新写入
+          heroArr.splice(index, 1, hero)
+          return
+        }
+      })
+      // 将数据重新写回json文件中
+      fs.writeFile(path.join(__dirname, './heros.json'), JSON.stringify(heroArr), err => {
+        if (err) return callback(false)
+        callback(true)
+      })
+    })
   }
 }

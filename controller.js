@@ -37,11 +37,20 @@ module.exports = {
     })
   },
   //显示编辑页面
-  showAddPage(req, res) {
-    res.render('add', {})
+  showEditPage(req, res) {
+    let {
+      id
+    } = req.query
+    modelData.getOneHero(id, (err, data) => {
+      if (err) return res.end(JSON.stringify({
+        code: 201,
+        msg: '获取英雄信息失败'
+      }))
+      res.render('edit', data)
+    })
   },
   //显示添加页面
-  showEditPage(req, res) {
+  showAddPage(req, res) {
     res.render('edit', {})
   },
   //显示详情页面
@@ -79,7 +88,32 @@ module.exports = {
         }))
       })
     })
+  },
 
+  // 编辑英雄信息的方法
+  editHeroInfo(req, res) {
+    // 定义一个变量，用于暂存请求体的信息
+    let str = '';
+    // 通过req的data事件监听函数，每当接受到请求体的数据，就累加到post变量中
+    req.on('data', chunk => {
+      str += chunk;
+    })
+
+    req.on('end', () => {
+      let editHero = querystring.parse(str)
+      modelData.editHeroInfo(editHero, result => {
+        // 如果返回的数据是true，就证明是修改成功
+        if (result) return res.end(JSON.stringify({
+          code: 200,
+          msg: '添加成功'
+        }))
+        // 否则就是修改失败
+        res.end(JSON.stringify({
+          code: 201,
+          msg: '添加失败'
+        }))
+      })
+    })
   },
   // 加载静态资源
   loadStaticResource(req, res) {
