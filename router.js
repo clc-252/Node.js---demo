@@ -89,6 +89,9 @@ function router(req, res) {
   } else if (method == 'POST' && pathname == '/editHeroInfo') {
     // 编辑英雄，调用控制器中的方法
     controller.editHeroInfo(req, res)
+  } else if (method == 'GET' && pathname == '/deleteHeroInfo') {
+    // 删除英雄，调用控制器中的方法
+    controller.deleteHeroInfo(req, res)
   } else if (method == 'GET' && pathname.startsWith('/node_modules')) {
     // 如果是以/node_modules开头的，说明是要加载静态资源
     controller.loadStaticResource(req, res);

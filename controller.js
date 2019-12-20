@@ -105,16 +105,36 @@ module.exports = {
         // 如果返回的数据是true，就证明是修改成功
         if (result) return res.end(JSON.stringify({
           code: 200,
-          msg: '添加成功'
+          msg: '修改成功'
         }))
         // 否则就是修改失败
         res.end(JSON.stringify({
           code: 201,
-          msg: '添加失败'
+          msg: '修改失败'
         }))
       })
     })
   },
+
+  // 删除英雄数据
+  deleteHeroInfo(req, res) {
+    // 获取想要删除的英雄id
+    let {
+      id
+    } = req.query
+    // 调用modelData中的方法
+    modelData.deleteHeroInfo(id, (result) => {
+      if (result) return res.end(JSON.stringify({
+        code: 200,
+        msg: '删除英雄数据成功'
+      }))
+      res.end(JSON.stringify({
+        code: 201,
+        msg: '删除英雄数据失败'
+      }))
+    })
+  },
+
   // 加载静态资源
   loadStaticResource(req, res) {
     fs.readFile(path.join(__dirname, req.pathname), (err, data) => {

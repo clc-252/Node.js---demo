@@ -79,5 +79,26 @@ module.exports = {
         callback(true)
       })
     })
+  },
+
+  // 删除英雄的方法
+  deleteHeroInfo(id, callback) {
+    // 获取所有英雄的信息
+    this.getAllHero((err, data) => {
+      if (err) return callback(false)
+      // 获取成功之后
+      let heroArr = JSON.parse(data)
+      // 找到和我们想要删除的那个英雄相匹配的那条数据
+      heroArr.some((item, index) => {
+        if (id == item.id) {
+          heroArr.splice(index, 1)
+        }
+      })
+      // 将数据重新写入json文件
+      fs.writeFile(path.join(__dirname, './heros.json'), JSON.stringify(heroArr), err => {
+        if (err) return callback(false)
+        callback(true)
+      })
+    })
   }
 }

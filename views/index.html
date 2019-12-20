@@ -37,7 +37,7 @@
           <td>
             <a href="./info.html?id={{$value.id}}">查看</a>
             <a href="./edit.html?id={{$value.id}}">编辑</a>
-            <a href="javascript:void(0)" data-id="{{$value.id}}">删除</a>
+            <a href="javascript:void(0)" data-id="{{$value.id}}" class="del-btn">删除</a>
           </td>
         </tr>
         {{/each}}
@@ -89,5 +89,28 @@
     </table>
   </div>
 </body>
+<script src="../node_modules/jquery/dist/jquery.js"></script>
+<script>
+  $(function () {
+    $('.del-btn').on('click', function () {
+      let id = $(this).data('id');
+      $.ajax({
+        url: '/deleteHeroInfo',
+        type: 'get',
+        data: {
+          id: id
+        },
+        dataType: 'json',
+        success: function (res) {
+          console.log(res);
+          if (res.code == 200) {
+            //删除成功，重新加载页面
+            window.location.reload();
+          }
+        }
+      })
+    })
+  })
+</script>
 
 </html>
